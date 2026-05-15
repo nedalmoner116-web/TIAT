@@ -1,63 +1,22 @@
-function closeAdmin() {
-            document.getElementById('adminPanel').style.display = 'none';
-        }
-
-        function addNewItem() {
-            const n = document.getElementById('pName').value;
-            const p = document.getElementById('pPrice').value;
-            const i = document.getElementById('pImg').value;
-            
-            if(!n || !p) return alert("Please fill Name and Price");
-
-            let db = JSON.parse(localStorage.getItem('tiat_db')) || initialItems;
-            db.push({n, p, i});
-            localStorage.setItem('tiat_db', JSON.stringify(db));
-            
-            document.getElementById('pName').value = '';
-            document.getElementById('pPrice').value = '';
-            document.getElementById('pImg').value = '';
-            render();
-            alert("تمت الإضافة بنجاح!");
-        }
-
-        function deleteItem(index) {
-            if(confirm("مسح القطعة؟")) {
-                let db = JSON.parse(localStorage.getItem('tiat_db')) || initialItems;
-                db.splice(index, 1);
-                localStorage.setItem('tiat_db', JSON.stringify(db));
-                render();
-            }
-        }
-
-        function render() {
+function render() {
             const grid = document.getElementById('mainGrid');
             grid.innerHTML = '';
             let db = JSON.parse(localStorage.getItem('tiat_db')) || initialItems;
-
             db.forEach((item, index) => {
                 grid.innerHTML += 
                     <div class="card">
                         <div class="img-box" style="background-image:url('${item.i}')"></div>
-                        <div class="product-info">
-                            <h3>${item.n}</h3>
-                            <p>${item.p}</p>
-                            <button class="buy-btn" onclick="sendOrder('${item.n}')">طلب القطعة</button>
-                            <button class="del-btn" id="del-${index}" onclick="deleteItem(${index})">DELETE ITEM 🗑️</button>
-                        </div>
-                    </div>
-                ;
-                if(isOwner) {
-                    setTimeout(() => {
-                        const btn = document.getElementById(del-${index});
-                        if(btn) btn.style.display = 'inline-block';
-                    }, 10);
-                }
+                        <h3>${item.n}</h3>
+                        <p>${item.p}</p>
+                        <button class="buy-btn" onclick="sendOrder('${item.n}')">طلب القطعة</button>
+                        <button class="del-btn" id="del-${index}" onclick="deleteItem(${index})">DELETE</button>
+                    </div>;
+                if(isOwner) setTimeout(() => { document.getElementById(del-${index}).style.display='inline-block' }, 10);
             });
         }
 
         function sendOrder(name) {
-            const text = أهلاً TIAT، أريد طلب قطعة: ${name};
-            window.open(https://wa.me/${myWhatsApp}?text=${encodeURIComponent(text)});
+            window.open(https://wa.me/${myWhatsApp}?text=محتاج أطلب: ${name});
         }
 
         window.onload = render;
